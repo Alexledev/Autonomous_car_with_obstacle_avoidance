@@ -3,12 +3,13 @@
 
 void TurretController::init(){
     swivelMotor.attach(sPin);
-    swivelMotor.write(0);
+    // TurretController::lookForward();
 }
 
 void TurretController::lookForward() {
     // Set the servo to the forward position (e.g., 90 degrees)
     swivelMotor.write(FORWARDALIGN);
+    pos = 90;
 }
 
 void TurretController::scan(int startDegrees, int endDegrees) {
@@ -16,7 +17,7 @@ void TurretController::scan(int startDegrees, int endDegrees) {
         pos = startDegrees;    
     }
     
-    static int step = 2;   
+    
     unsigned long currentTime = millis();
 
     if (currentTime - lastMoveTime >= 30) {  // move every 30 ms
@@ -31,37 +32,89 @@ void TurretController::scan(int startDegrees, int endDegrees) {
     }
 }
 
-void TurretController::scan(int range) {
-    int w = range/2;
-    int lower = FORWARDALIGN-w;
-    int higher = FORWARDALIGN+w;
+void TurretController::collectData(){
 
-    TurretController::scan(lower, higher);
+    currentSensorValue = ultraSensor.getValue();    
+    dir[pos-1] = currentSensorValue;
+
 }
 
-TurretValue TurretController::getViewData(int range)
+bool TurretController::lookAround(int start)
 {
-    TurretController::scan(range);
-    int w2 = range/3;
-    int i1 = w2;
-    int i2 = i1 + w2;
     
-    TurretValue vals;
-    vals.value = currentSensorValue;
+    if (pos == 0){
+        pos = start;    
+    }
+     
+    unsigned long currentTime = millis();
 
-    if (pos < i1){
-        // Serial.print("right at: ");
-        vals.direction = RIGHT;
-    }
-    else if (pos > i1 && pos < i2){
-        // Serial.print("middle at: ");
-        vals.direction = MIDDLE;
-    }
-    else if (pos > i2){
-        // Serial.print("left at: ");
-        vals.direction = LEFT;
-    }
-    // Serial.println(pos);
+    if (currentTime - lastMoveTime >= 15) {  // move every 30 ms       
+        swivelMotor.write(pos);              
 
-    return vals;
+        pos += step;
+
+        if (pos >= 150 && pos < 180){ // left data
+            while(!nextSampleData());
+            dir[0] = getCurrentData();
+        }
+        else if (pos < 30 && pos > 0) // right data
+        {
+            while(!nextSampleData());    
+            dir[1] = getCurrentData();      
+        }
+
+        if (pos >= 180) {
+            step = -step; // reverse direction
+
+            // while(!nextSampleData());
+            // dir[0] = getCurrentData();
+        }
+        else if (pos <= 1){
+            step = -step;           
+
+            // while(!nextSampleData());    
+            // dir[1] = getCurrentData();           
+        }
+
+        lastMoveTime = currentTime;
+
+        if (step > 0 && pos == start){
+           return true;
+        }       
+    }
+  
+    return false;
+}
+
+bool TurretController::nextSampleData(){
+
+    unsigned long currentTime = millis();
+
+    if (currentTime - lastTime > 8)
+    {  
+        sumSensorValues += ultraSensor.getValue();
+        sampleCount++;
+        lastTime = currentTime;
+    }
+    
+    if (sampleCount >= 5) // sample size = 10
+    {
+        recentSensorValue = sumSensorValues/5;
+       
+        sampleCount = 0;
+        sumSensorValues = 0;
+        return true;
+    }
+
+    return false;
+}
+
+int TurretController::getCurrentData()
+{
+    return recentSensorValue;
+}
+
+int TurretController::getRawData()
+{
+    return ultraSensor.getValue();
 }
