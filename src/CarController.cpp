@@ -1,4 +1,5 @@
 #include "CarController.h"
+#include "Utilities.h"
 #include "Arduino.h"
 
 void CarController::drive(int velocity)
@@ -11,9 +12,28 @@ void CarController::drive(int velocity)
         display.displayLine(0, "has obs", true);
     }
 
-    if (inFrontOfObstacle == true && turret->lookAround(90) && avoidObstacles(turret->dir[0], turret->dir[1]))
+    if (inFrontOfObstacle == true && turret->lookAround(90) && avoidObstacles(turret->rangeL, turret->rangeR))
     {
-        delay(1000);
+       
+        // Serial.println("\n");
+
+        // Serial.println("Left");
+        // printArr(turret->rangeL, 30);
+        // Serial.print("Left Min: ");
+        // Serial.println(getMin(turret->rangeL, 30));
+
+       
+        // Serial.println("Right");
+        // printArr(turret->rangeR, 30);
+        // Serial.print("Right Min: ");
+        // Serial.println(getMin(turret->rangeR, 30));
+
+        // float arrayResults[30];
+        // int d = Utilities::cleanData(turret->rangeR, arrayResults);
+        // Serial.println("Right clean: ");
+        // printArr(arrayResults, 30);
+
+        delay(500);
         inFrontOfObstacle = false;
     }
 
@@ -26,13 +46,10 @@ void CarController::drive(int velocity)
     display.displayLine(1, displayText);
 }
 
-bool CarController::avoidObstacles(unsigned int leftValue, unsigned int rightValue)
+bool CarController::avoidObstacles(float leftData[], float rightData[])
 {
-    Serial.print("Left: ");
-    Serial.print(leftValue);
-
-    Serial.print(" Right: ");
-    Serial.println(rightValue);
+    float leftValue = Utilities::mean(leftData, 30);
+    float rightValue = Utilities::mean(rightData, 30);
 
     bool leftObs = hasObstacles(leftValue);
     bool rightObs = hasObstacles(rightValue);
@@ -77,7 +94,7 @@ bool CarController::avoidObstacles(unsigned int leftValue, unsigned int rightVal
 bool CarController::turningLeft()
 {
     runningBackwards();
-    while (chassis->turnLeft60Deg() == false);
+    while (chassis->turnLeft() == false);
     chassis->resumeTime();
 
     return true;
@@ -86,7 +103,7 @@ bool CarController::turningLeft()
 bool CarController::turningRight()
 {
     runningBackwards();
-    while (chassis->turnRight60Deg() == false); // hold until fully turned
+    while (chassis->turnRight() == false); // hold until fully turned
     chassis->resumeTime();
 
     return true;

@@ -16,36 +16,6 @@ void ChassisController::stop() {
     if (rightMotor) rightMotor->stop();
 }
 
-// Turn left in place (axial turn)
-bool ChassisController::turnLeftAxial(int speed) {
-
-    if (leftMotor) leftMotor->backward(speed);
-    if (rightMotor) rightMotor->forward(speed);
-
-    return true;
-}
-
-// Turn right in place (axial turn)
-bool ChassisController::turnRightAxial(int speed) {
-
-    if (leftMotor) leftMotor->forward(speed);
-    if (rightMotor) rightMotor->backward(speed);
-
-    return true;
-}
-
-// Turn left with a radial turn (left motor slower, right motor faster)
-void ChassisController::turnLeftRadial(int speed) {
-    if (leftMotor) leftMotor->stop();
-    if (rightMotor) rightMotor->forward(speed);
-}
-
-// Turn right with a radial turn (right motor slower, left motor faster)
-void ChassisController::turnRightRadial(int speed) {
-    if (leftMotor) leftMotor->forward(speed);
-    if (rightMotor) rightMotor->stop();
-}
-
 bool ChassisController::pauseUntilDone()
 {
     unsigned long currentTime = millis();
@@ -58,7 +28,7 @@ bool ChassisController::pauseUntilDone()
 
 }
 
-bool ChassisController::turnLeft60Deg() {
+bool ChassisController::turnLeft() {
     
     if (pauseUntilDone()) // >= 1 second
     {       
@@ -74,7 +44,7 @@ bool ChassisController::turnLeft60Deg() {
    return false;
 }
 
-bool ChassisController::turnRight60Deg() {
+bool ChassisController::turnRight() {
 
     if (pauseUntilDone()) // >= 1 second
     {       

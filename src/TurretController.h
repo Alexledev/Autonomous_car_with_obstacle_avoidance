@@ -28,9 +28,7 @@ private:
     int step = 1;  
     unsigned long lastMoveTime=0;
     int sPin;
-    int pos = 0;
-    const int FORWARDALIGN = 90;    
-    unsigned int currentSensorValue = 0;
+    int pos = 0; 
     
     unsigned int sumSensorValues = 0;
     int sampleCount = 0;
@@ -38,18 +36,12 @@ private:
 
     unsigned long lastTime = 0;
 
-    void turnLeft(int endDegrees);
-    void collectData();
-
 public:
     TurretController(int servoPin): sPin(servoPin), ultraSensor(A0){
         
     }
 
     void init();
-    void lookForward();
-    void scan(int startDegrees, int endDegrees);
-    Directions scan(int range);
     bool lookAround(int starting);
     
     bool nextSampleData();
@@ -57,7 +49,8 @@ public:
     
     int getRawData();
 
-    unsigned int dir[2];
+    float rangeL[30];
+    float rangeR[30];
 
 };
 

@@ -10,10 +10,7 @@ class ChassisController
        MotorPins rightPins;
 
        DCMotorController *leftMotor = nullptr;
-       DCMotorController *rightMotor = nullptr;
-
-       const float wheelCircumference = 6.6*3.14 / 100; // m
-       const float distanceBetweenWheels = 13.5 / 100; // m    
+       DCMotorController *rightMotor = nullptr; 
 
        const float baseSpeed = 130;
 
@@ -42,35 +39,12 @@ class ChassisController
         bool backward();
         void stop();
 
-        bool turnLeftAxial(int speed);
-        bool turnRightAxial(int speed);
-        void turnLeftRadial(int speed);
-        void turnRightRadial(int speed);
-
-        bool turnLeft60Deg();
-        bool turnRight60Deg();
+        bool turnLeft();
+        bool turnRight();
         bool backSwivelRight();
         bool backSwivelLeft();
 
         void resumeTime();
-
-        // float calcCarRotationRad(float leftRotations, float rightRotations)
-        // {
-        //     float leftDistanceTravelled = leftRotations * wheelCircumference;
-        //     float rightDistanceTravelled = rightRotations * wheelCircumference;
-
-        //     float rot = (rightDistanceTravelled - leftDistanceTravelled)/distanceBetweenWheels;
-        //     return rot; // + left rotation | - right rotation
-        // }
-
-        // float calcWheelRotation(float timePassed, float speed)
-        // {
-        //     float distance = speed * timePassed;
-        //     float rot = distance / wheelCircumference;
-
-        //     return rot;
-        // }
-
 };
 
 #endif

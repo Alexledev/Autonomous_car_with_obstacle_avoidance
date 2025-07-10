@@ -12,10 +12,6 @@ MotorPins rMotor = {12, 8, 11}; // 9 and 10 are taken by the Timer on the Servo 
 
 const int turretPin = 2;
 
-// const int encoderPWM = 3;
-// unsigned int countA = 0;
-// DisplayControl displayControl(0x27, 16, 2);
-
 CarController carControl(turretPin, lMotor, rMotor);
 
 void setup()
@@ -27,5 +23,4 @@ void setup()
 void loop()
 { 
   carControl.drive(140);
-  // delay(10);   
 }
