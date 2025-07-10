@@ -12,6 +12,8 @@ class ChassisController
        DCMotorController *leftMotor = nullptr;
        DCMotorController *rightMotor = nullptr; 
 
+       int speedSetPin = A2;
+
        const float baseSpeed = 130;
 
        const unsigned long interval = 1000; // ms
@@ -33,6 +35,7 @@ class ChassisController
         {
             leftMotor = new DCMotorController(leftPins);
             rightMotor = new DCMotorController(rightPins);
+            pinMode(speedSetPin, INPUT);
         }
 
         void forward(int speed);
@@ -45,6 +48,8 @@ class ChassisController
         bool backSwivelLeft();
 
         void resumeTime();
+
+        int readSpeedInput();
 };
 
 #endif

@@ -46,8 +46,8 @@ class Utilities
            
             int count = Utilities::removeOutliers(arr, 30, result);
 
-            Serial.print("Data after removed outliers: ");
-            printArr(result, 30);
+            // Serial.print("Data after removed outliers: ");
+            // printArr(result, 30);
 
             return count;
         }

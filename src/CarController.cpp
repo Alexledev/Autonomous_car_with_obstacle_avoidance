@@ -4,6 +4,10 @@
 
 void CarController::drive(int velocity)
 {
+    // Serial.print("Spd: ");
+    // Serial.println(chassis->readSpeedInput());
+    velocity = chassis->readSpeedInput()/5;
+
     if (inFrontOfObstacle == false && CarController::detectObstacles())
     {
         chassis->stop();
@@ -40,7 +44,14 @@ void CarController::drive(int velocity)
     if (inFrontOfObstacle == false)
     {
         chassis->forward(velocity);
-        display.displayLine(0, "forwards", true);
+        
+        String line[] = {"f:", String(velocity), "d:", String(turret->getRawData())};
+        int length = sizeof(line)/sizeof(line[0]);
+
+        String dispText = DisplayControl::appendTextWithSpace(line, length);
+        Serial.println(dispText);
+
+        display.displayLine(0, dispText, true);
     }
 
     display.displayLine(1, displayText);

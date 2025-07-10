@@ -113,3 +113,8 @@ void ChassisController::resumeTime()
 {
     prevTime = 0;
 }
+
+int ChassisController::readSpeedInput()
+{
+    return analogRead(speedSetPin);
+}

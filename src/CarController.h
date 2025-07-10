@@ -14,7 +14,7 @@ private:
     bool inFrontOfObstacle = false;
 
     bool detectObstacles();
-    int detectionRange = 400;
+    int detectionRange = 500;
    
     unsigned long lastTime = 0;
   

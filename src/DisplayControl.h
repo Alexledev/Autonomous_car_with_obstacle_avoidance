@@ -33,6 +33,18 @@ public:
     dt.concat(rightString);
     return dt;
   }
+
+   static String appendTextWithSpace(String rightString[], int length)
+  {
+    String dt = "";
+    for (int i = 0; i < length; i++)
+    {
+      dt.concat(" ");
+      dt.concat(rightString[i]);
+    }
+    
+    return dt;
+  }
 };
 
 #endif
