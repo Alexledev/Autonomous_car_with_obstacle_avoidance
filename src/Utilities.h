@@ -1,4 +1,8 @@
+#include <Arduino.h>
 #include <math.h>
+
+#ifndef UTIL_H
+#define UTIL_H
 
 class Utilities
 {
@@ -62,6 +66,15 @@ class Utilities
             }   
             Serial.println("]");
         };
+
+        static float median3(float a, float b, float c) 
+        {
+            if ((a >= b && a <= c) || (a <= b && a >= c)) return a;
+            if ((b >= a && b <= c) || (b <= a && b >= c)) return b;
+            return c;
+        }
+
 };
 
 
+#endif

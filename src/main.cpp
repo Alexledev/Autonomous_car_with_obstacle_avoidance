@@ -1,11 +1,5 @@
 #include <Arduino.h>
-#include <DCMotorController.h>
-#include <ChassisController.h>
-#include <Servo.h>
-#include <TurretController.h>
-#include <UltrasonicController.h>
 #include <CarController.h>
-#include <DisplayControl.h>
 
 MotorPins lMotor = {7, 6, 5};
 MotorPins rMotor = {12, 8, 11}; // 9 and 10 are taken by the Timer on the Servo motors

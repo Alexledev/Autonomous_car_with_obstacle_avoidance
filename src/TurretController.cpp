@@ -14,19 +14,24 @@ bool TurretController::lookAround(int start)
      
     unsigned long currentTime = millis();
 
-    if (currentTime - lastMoveTime >= 15) {  // move every 15 ms       
+    if (currentTime - lastMoveTime >= 30) {  // move every 15 ms       
+
         swivelMotor.write(pos);              
 
         pos += step;
 
+        Serial.print("Sensor value: ");
+        Serial.println(recentSensorValue);
+        
+        // old
         if (pos >= 150 && pos < 180){ // left data
             while(!nextSampleData());
-            rangeL[pos-150] = getCurrentData();
+            rangeL[(pos) - 150] = getCurrentData();
         }
-        else if (pos <= 30 && pos > 0) // right data
+        else if (pos <= 30 && pos > 0)  // right data
         {
             while(!nextSampleData());  
-            rangeR[pos-1] = getCurrentData();              
+            rangeR[(pos) - 1] = getCurrentData();              
         }
 
         if (pos >= 180) {
@@ -46,11 +51,67 @@ bool TurretController::lookAround(int start)
     return false;
 }
 
+
+// bool TurretController::lookAroundNew(int start)
+// {
+//     if (pos == 0){
+//         pos = start;    
+//     }
+     
+//     unsigned long currentTime = millis();
+
+//     if (currentTime - lastMoveTime >= 30) {  // move every 15 ms       
+
+//         swivelMotor.write(pos);              
+
+//         pos += step;
+
+//         Serial.print("Sensor value: ");
+//         Serial.println(recentSensorValue);
+
+//         if (pos >= 160 && pos < 180)
+//         { // left data
+//             while(!nextSampleData());
+//             lowerRangeL[(pos) - 160] = getCurrentData();
+//         }
+//         else if (pos >= 135 && pos <= 155)
+//         {
+//             while(!nextSampleData());
+//             upperRangeL[(pos) - 135] = getCurrentData();
+//         }
+//         else if (pos <= 20 && pos > 0)  // right data
+//         {
+//             while(!nextSampleData());  
+//             lowerRangeR[(pos) - 1] = getCurrentData();              
+//         }
+//         else if (pos <= 45 && pos >= 25)
+//         {
+//             while(!nextSampleData());  
+//             upperRangeR[(pos) - 25] = getCurrentData();              
+//         }
+
+//         if (pos >= 180) {
+//             step = -step; // reverse direction          
+//         }
+//         else if (pos <= 1){
+//             step = -step;                   
+//         }
+
+//         lastMoveTime = currentTime;
+
+//         if (step > 0 && pos == start){
+//            return true;
+//         }       
+//     }
+  
+//     return false;
+// }
+
 bool TurretController::nextSampleData(){
 
     unsigned long currentTime = millis();
 
-    if (currentTime - lastTime > 8)
+    if (currentTime - lastTime > 10)
     {  
         sumSensorValues += ultraSensor.getValue();
         sampleCount++;

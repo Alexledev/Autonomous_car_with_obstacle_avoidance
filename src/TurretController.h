@@ -1,23 +1,8 @@
 #include <Servo.h>
 #include <UltrasonicController.h>
-#include <Arduino.h>
 
 #ifndef TURRET_CONTROLLER_H
 #define TURRET_CONTROLLER_H
-
-enum Directions {
-    MIDDLE,
-    RIGHT,
-    LEFT,
-    STOP
-};
-
-struct TurretValue
-{
-    Directions direction;
-    int value[180];
-};
-
 
 class TurretController
 {
@@ -43,6 +28,7 @@ public:
 
     void init();
     bool lookAround(int starting);
+    // bool lookAroundNew(int starting);
     
     bool nextSampleData();
     int getCurrentData();  
@@ -52,6 +38,11 @@ public:
     float rangeL[30];
     float rangeR[30];
 
+    // float lowerRangeL[20]; // 180-160
+    // float upperRangeL[20]; // 155-135
+
+    // float lowerRangeR[20]; // 0-20
+    // float upperRangeR[20]; // 25-45
 };
 
 #endif

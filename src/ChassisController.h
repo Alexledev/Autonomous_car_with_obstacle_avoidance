@@ -19,6 +19,8 @@ class ChassisController
        const unsigned long interval = 1000; // ms
        unsigned long prevTime = 0;
 
+       bool backSwivel(int value, bool turnRight);
+       bool turnAxial(int LeftSpd, int RightSpd, bool turnRight);
        bool pauseUntilDone();
     public:
         ChassisController(MotorPins lPins, MotorPins rPins): leftPins(lPins), rightPins(rPins)
@@ -42,10 +44,18 @@ class ChassisController
         bool backward();
         void stop();
 
-        bool turnLeft();
-        bool turnRight();
-        bool backSwivelRight();
-        bool backSwivelLeft();
+        bool turnLeftLong();
+        bool turnRightLong();
+        
+        bool turnLeftShort();
+        bool turnRightShort();
+
+
+        bool backSwivelRight60();
+        bool backSwivelLeft60();
+
+        bool backSwivelRight120();
+        bool backSwivelLeft120();
 
         void resumeTime();
 
