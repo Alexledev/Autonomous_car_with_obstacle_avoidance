@@ -1,6 +1,7 @@
 # Autonomous Car with Ultrasonic and Light-based obstacle avoidance
 
 An Arduino-based car with an ultrasonic mounted on a rotating turret and a light sensor on the front, both of them helping the car to move around environments and avoid obstacle.
+Demo: https://www.youtube.com/shorts/H-D1xPRFkRE
 
 ## Installation
 1. Install platformIO on VSCode.
